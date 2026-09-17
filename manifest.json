@@ -1,0 +1,13 @@
+{
+  "background_color": "#fff7ed",
+  "description": "रावत-राजपूत गोत्र मिलान",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "गोत्र मिलान - MR RAHUL RAJ SINGH",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "गोत्र मिलान",
+  "start_url": "/",
+  "theme_color": "#6a1b9a",
+  "id": "gotra-milan"
+}
