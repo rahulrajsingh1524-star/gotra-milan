@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>गोत्र मिलान - MR RAHUL RAJ SINGH</title>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0;font-family:Arial,"Noto Sans Devanagari",sans-serif;
+    background:linear-gradient(135deg,#fff7ed,#f3e8ff);
+    color:#222;
+  }
+  .app{max-width:900px;margin:auto;padding:18px}
+  .header{
+    background:linear-gradient(135deg,#6a1b9a,#8e24aa);
+    color:#fff;border-radius:22px;padding:22px;text-align:center;
+    box-shadow:0 8px 25px #0002;
+  }
+  .header h1{margin:0;font-size:30px}
+  .header p{margin:8px 0 0;font-size:15px}
+  .card{
+    background:#fff;border-radius:20px;padding:20px;margin-top:16px;
+    box-shadow:0 5px 20px #0001;
+  }
+  h2{margin:0 0 15px;color:#6a1b9a;font-size:21px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  label{font-weight:bold;display:block;margin-bottom:6px}
+  select{
+    width:100%;padding:13px;border:1px solid #ccc;border-radius:12px;
+    font-size:15px;background:#fff;
+  }
+  .btn{
+    width:100%;border:0;border-radius:14px;padding:15px;
+    margin-top:18px;font-size:18px;font-weight:bold;
+    background:#6a1b9a;color:#fff;cursor:pointer;
+  }
+  .btn:active{transform:scale(.99)}
+  #result{
+    margin-top:16px;padding:18px;border-radius:15px;
+    background:#f5f5f5;display:none;line-height:1.6;
+  }
+  .ok{background:#e8f5e9!important;color:#17652a}
+  .bad{background:#ffebee!important;color:#a31522}
+  .warn{background:#fff8e1!important;color:#795600}
+  .small{font-size:13px;color:#666;line-height:1.5}
+  .credit{text-align:center;margin:18px 0;color:#666;font-size:13px}
+  @media(max-width:650px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <div class="header">
+    <h1>🚩 गोत्र मिलान</h1>
+    <p>रावत-राजपूत गोत्र मिलान</p>
+  </div>
+
+  <div class="card">
+    <h2>👦 लड़के की जानकारी</h2>
+    <div class="grid">
+      <div>
+        <label>लड़के की गोत्र</label>
+        <select id="boyGotra"><option value="">— गोत्र चुनें —</option></select>
+      </div>
+      <div>
+        <label>लड़के की माँ की गोत्र</label>
+        <select id="boyMother"><option value="">— गोत्र चुनें —</option></select>
+      </div>
+      <div>
+        <label>लड़के की दादी की गोत्र</label>
+        <select id="boyGrandmother"><option value="">— गोत्र चुनें —</option></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>👧 लड़की की जानकारी</h2>
+    <div class="grid">
+      <div>
+        <label>लड़की की गोत्र</label>
+        <select id="girlGotra"><option value="">— गोत्र चुनें —</option></select>
+      </div>
+      <div>
+        <label>लड़की की माँ की गोत्र</label>
+        <select id="girlMother"><option value="">— गोत्र चुनें —</option></select>
+      </div>
+      <div>
+        <label>लड़की की दादी की गोत्र</label>
+        <select id="girlGrandmother"><option value="">— गोत्र चुनें —</option></select>
+      </div>
+    </div>
+
+    <button class="btn" onclick="checkGotra()">🔎 गोत्र मिलान करें</button>
+    <div id="result"></div>
+  </div>
+
+  <div class="card">
+    <h2>📜 ऐप में इस्तेमाल वंश सूची</h2>
+    <p class="small">
+      अनहलवंशीय (चौहान), अनूपवंशीय चौहान (बरड़), गहलोतवंशीय,
+      पंवारवंशीय, राठौड़वंशीय, भाटीवंशीय तथा सोलह साखी।
+    </p>
+    <p class="small">
+      <b>नोट:</b> यह prototype आपके भेजे हुए चार्ट की सूची और बताए गए
+      मिलान नियम के आधार पर बनाया गया है। फोटो में अस्पष्ट शब्दों की spelling
+      को final version में आपकी पुष्टि के बाद ठीक किया जा सकता है।
+    </p>
+  </div>
+
+  <div class="credit">© MR RAHUL RAJ SINGH • Gotra Milan</div>
+</div>
+
+<script>
+const groups = {
+  "अनहलवंशीय (चौहान)": [
+    "देवावत","सूरावत","उदावत","लगेत","राजोरिया","बिगड़ियात","धाडियात","नाडोत",
+    "विरमोत","काठात","कणियात","मुंडियात","भैंरोत","लाडात","बोखाडा","नणेत",
+    "औंधात","अमरास्या","जेहलात","भादावत","भूंडावत","पापडियात","विलोत","बराणा",
+    "भोपावत","बादडियात","पालोत","बलाड़िया","चाचकियात","झामर","नापात","नेतावत",
+    "पाखरियात","मलेत","चीता","तेजावत","घोड़ात","कुंभात","बिजलोत","नोमडियात",
+    "दामावत","ननोमा"
+  ],
+  "अनूपवंशीय चौहान (बरड़)": [
+    "खोंखावत","मेघावत","बाहडोत","पदमावत","हीराबत","मालावत","आपावत","कानावत",
+    "पातलावत","डूंगावत","सुजावत","भीलावत","वरात","झूंठा","धकोत","धामावत",
+    "लखियात","सहड़ोत","माणकात","करणात","भोपात","चांदावत","सेंगणोत","टाटोक",
+    "नंगावत","कूंपावत","रत्नावत","कीतावत","खीमावत","सोड़ावत","मोकावत","लाखावत",
+    "राजावत","हालावत","जैतरात","सीयावत","तेजावत","तावेड़","रूपावत"
+  ],
+  "गहलोतवंशीय": [
+    "कील (भीलाव)","गरतूंड","डांगा","बाणियात","लोहरा","वालोत","विटोल","महेंद्रात",
+    "गोदात","भूंडक","डाकल","वहलोल","काठ","काछी","दायमा","मननात","बावलात",
+    "धर्मलात","बरगट","मोटा","मादात","बूज","भाभला","भूचर","धोरणा","कीट",
+    "चरेड़","नाडियावत","कनडावत","भलियावत"
+  ],
+  "पंवारवंशीय": [
+    "मोटिस","धोधिंग","बोया","देहलात","कलात","खिंयात","जेहलात","मूंजी","बाणियात","कठारा"
+  ],
+  "राठौड़वंशीय": [
+    "पोकरिया","भरड़","मामणियात","बूज","बरलात","राजवंशीय","बोच"
+  ],
+  "भाटीवंशीय": [
+    "सहलोत","चौरोट","ठेकरोत","पापलियात","जालात","वाणात","रहलोत"
+  ],
+  "सोलह साखी": [
+    "संडासी","कड़ेवाल","चांदा","माल","हरमर","बागड़ी","फबड़ी","डाडरवाल",
+    "जाटरवाल","ओसवाल","नखवाल","हुंडासी","खरमर","चरडू","हला","खींची"
+  ]
+};
+
+const allGotras = [];
+for (const vansh in groups) {
+  groups[vansh].forEach(gotra => allGotras.push({gotra, vansh}));
+}
+
+function fillSelect(id){
+  const select = document.getElementById(id);
+  for(const item of allGotras){
+    const opt = document.createElement("option");
+    opt.value = item.gotra;
+    opt.textContent = item.gotra + " — " + item.vansh;
+    select.appendChild(opt);
+  }
+}
+
+["boyGotra","boyMother","boyGrandmother","girlGotra","girlMother","girlGrandmother"]
+.forEach(fillSelect);
+
+function getItem(id){
+  const value = document.getElementById(id).value;
+  return allGotras.find(x => x.gotra === value);
+}
+
+function checkGotra(){
+  const boy = getItem("boyGotra");
+  const boyMother = getItem("boyMother");
+  const boyGrandmother = getItem("boyGrandmother");
+  const girl = getItem("girlGotra");
+  const girlMother = getItem("girlMother");
+  const girlGrandmother = getItem("girlGrandmother");
+
+  const result = document.getElementById("result");
+  result.style.display = "block";
+  result.className = "";
+
+  if(!boy || !boyMother || !boyGrandmother || !girl || !girlMother || !girlGrandmother){
+    result.className = "warn";
+    result.innerHTML = "⚠️ <b>सभी 6 गोत्र चुनें।</b>";
+    return;
+  }
+
+  const six = [
+    ["लड़के की गोत्र",boy],
+    ["लड़के की माँ",boyMother],
+    ["लड़के की दादी",boyGrandmother],
+    ["लड़की की गोत्र",girl],
+    ["लड़की की माँ",girlMother],
+    ["लड़की की दादी",girlGrandmother]
+  ];
+
+  const problems = [];
+
+  // Exact duplicate gotra check
+  for(let i=0;i<six.length;i++){
+    for(let j=i+1;j<six.length;j++){
+      if(six[i][1].gotra === six[j][1].gotra){
+        problems.push("समान गोत्र मिला: <b>"+six[i][1].gotra+"</b> ("+
+          six[i][0]+" और "+six[j][0]+")");
+      }
+    }
+  }
+
+  // User-specified rule: girl's gotras should not belong to boy's vansh
+  const girlSide = [girl,girlMother,girlGrandmother];
+  girlSide.forEach((item,index)=>{
+    if(item.vansh === boy.vansh){
+      const names = ["लड़की की गोत्र","लड़की की माँ","लड़की की दादी"];
+      problems.push(names[index]+" की गोत्र <b>"+item.gotra+
+        "</b> लड़के के वंश <b>"+boy.vansh+"</b> में है।");
+    }
+  });
+
+  if(problems.length === 0){
+    result.className = "ok";
+    result.innerHTML =
+      "✅ <b>दिए गए नियमों के अनुसार कोई टकराव नहीं मिला।</b><br><br>"+
+      "लड़के का वंश: "+boy.vansh;
+  }else{
+    result.className = "bad";
+    result.innerHTML =
+      "❌ <b>जाँच में टकराव मिला:</b><br><br>• "+
+      problems.join("<br>• ")+"<br><br>"+
+      "लड़के का वंश: <b>"+boy.vansh+"</b>";
+  }
+}
+</script>
+</body>
+</html>
